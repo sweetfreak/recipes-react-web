@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import { db} from "../../firebase/firebase"
+import { db} from "../../firebase/firebase.tsx"
 import { collection, addDoc, doc, setDoc, getDoc, updateDoc, arrayUnion, serverTimestamp } from "firebase/firestore";
 import {useAuth } from "../../contexts/authContext/index"
 import type { UserProfile } from '../../types/User'

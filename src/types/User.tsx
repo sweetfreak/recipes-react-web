@@ -11,4 +11,5 @@ export interface UserProfile {
   friends: string[];
   friendRequestsSent: string[]
   friendRequestsReceived: string[]
+  chatGroupIds: string[]
 }

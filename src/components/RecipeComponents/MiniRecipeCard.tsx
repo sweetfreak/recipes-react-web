@@ -13,9 +13,9 @@ interface RecipeCardMiniProps {
 export default function RecipeCardMini({ recipe, isFavorite, toggleFavorite, openRecipe }: RecipeCardMiniProps) {
 
     return (
-        <main onClick={() => openRecipe(recipe)} className="flex p-10 border-8 border-lime-700">
+        <main onClick={() => openRecipe(recipe)} className="flex w-120 h-auto bg-lime-100 rounded-lg p-4 border-8 border-lime-700">
             <div className="flex p-5">
-                <img className="w-full h-fit max-w-40 max-h-40" src="../../src/assets/macncheese.png" />  
+                <img className="w-full h-48 object-cover rounded-t-lg" src="../../src/assets/macncheese.png" />  
             </div>
             
             <div>

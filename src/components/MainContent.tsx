@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
-import { getAuth, type User } from "firebase/auth";
+import { getAuth} from "firebase/auth";
 
 
 //Components
 import SavedRecipes from "./RecipeComponents/SavedRecipes";
 import NewRecipe from "./RecipeComponents/NewRecipe";
-import SavedChats from "./ChatComponents/SavedChats";
+import SavedChats from "./ChatComponents/ChatPage";
 import Header from "./Header";
 import RecipeSearch from "./RecipeComponents/RecipeSearch";
 import MyRecipes from "./RecipeComponents/MyRecipes";
@@ -19,7 +19,7 @@ import { useActiveSection } from "../contexts/ActiveSectionContext";
 import type {Recipe} from "../types/Recipe"
 import type { UserProfile }from "../types/User";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
+import { db } from "../firebase/firebase.tsx";
 
 
 export default function MainContent() {
@@ -39,26 +39,26 @@ export default function MainContent() {
   
   const memoizedProfile = useMemo(() => currentUserProfile, [currentUserProfile?.uid]);
 
-        const [recipes, setRecipes] = useState<Recipe[]>([]);
+        //const [recipes, setRecipes] = useState<Recipe[]>([]);
 
         const [latestRecipe, setLatestRecipe] = useState<Recipe | null>(null);
 
-        const handleNewRecipe = (newRecipe: Recipe | null) => {
-          if (!newRecipe) return;
+        // const handleNewRecipe = (newRecipe: Recipe | null) => {
+        //   if (!newRecipe) return;
 
-          // 1. Prepend to the existing recipes state
-          setRecipes(prev => [newRecipe, ...prev]);
+        //   // 1. Prepend to the existing recipes state
+        //   setRecipes(prev => [newRecipe, ...prev]);
 
-          // 2. Update the currentUserProfile to include this new recipe ID
-          setCurrentUserProfile(prev => prev ? {
-            ...prev,
-            myRecipes: [newRecipe.id, ...prev.myRecipes]
-          } : prev);
+        //   // 2. Update the currentUserProfile to include this new recipe ID
+        //   setCurrentUserProfile(prev => prev ? {
+        //     ...prev,
+        //     myRecipes: [newRecipe.id, ...prev.myRecipes]
+        //   } : prev);
 
-          setLatestRecipe(newRecipe)
+        //   setLatestRecipe(newRecipe)
           
-          console.log(myRecipes)
-        };
+        //   console.log(myRecipes)
+        // };
 
   useEffect(() => {
     if (!currentUser) return;
@@ -86,7 +86,8 @@ export default function MainContent() {
           myRecipes: data.myRecipes,
           friends: data.friends,
           friendRequestsSent: data.friendRequestsSent,
-          friendRequestsReceived: data.friendRequestsReceived
+          friendRequestsReceived: data.friendRequestsReceived,
+          chatGroupIds: data.chatGroupIds
         });
 
       } catch (error) {
@@ -124,16 +125,16 @@ export default function MainContent() {
     <>
       <Header openProfile={openProfile} currentUserProfile={currentUserProfile ?? undefined}/>
 
-      <main className="bg-lime-100">
+      <main className="bg-lime-200">
         {activeSection === "saved" && <SavedRecipes openRecipe={openRecipe} currentUserProfile={memoizedProfile} />}
-        {activeSection === "new" && <NewRecipe currentUserProfile={currentUserProfile} //onRecipeAdded={handleNewRecipe} 
+        {activeSection === "new" && <NewRecipe currentUserProfile={currentUserProfile}  
         setMyRecipes={setMyRecipes}
         />}
         {activeSection === "search" && <RecipeSearch openRecipe={openRecipe}
      
         />}
         {activeSection ==="myRecipes" && <MyRecipes openRecipe={openRecipe} currentUserProfile={memoizedProfile} {...(latestRecipe ? { newRecipe: latestRecipe } : {})} myRecipes={myRecipes} setMyRecipes={setMyRecipes} />}
-        {activeSection === "chats" && <SavedChats />} 
+        {activeSection === "chats" && <SavedChats currentUserProfile={currentUserProfile} />} 
         {activeSection === "fullRecipe" && selectedRecipe && (<FullRecipe recipe={selectedRecipe} openProfile={openProfile} openEditRecipe={openEditRecipe} /> )}
         {activeSection === "editRecipe" && selectedRecipe && (<EditRecipe currentUserProfile={currentUserProfile} selectedRecipe={selectedRecipe} openRecipe={openRecipe}/> )}
         {activeSection === "profile" && selectedProfile && <UserProfilePage openEditProfile={openEditProfile} id={String(selectedProfile)} openRecipe={openRecipe} currentUserProfile={currentUserProfile}  /> }

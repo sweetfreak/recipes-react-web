@@ -1,4 +1,4 @@
-import { auth, db} from "./firebase"
+import { auth, db} from "./firebase.tsx"
 import { signInWithEmailAndPassword, type User } from 'firebase/auth';
 import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updatePassword, updateProfile } from "firebase/auth";
 import {doc, setDoc, serverTimestamp} from 'firebase/firestore'

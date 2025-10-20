@@ -6,7 +6,7 @@ import RecipeCardMini from "./MiniRecipeCard"
 import type {Recipe} from "../../types/Recipe"
 import type { UserProfile } from "../../types/User";
 
-import { db } from "../../firebase/firebase";
+import { db } from "../../firebase/firebase.tsx";
 import { doc, getDoc } from "firebase/firestore";
 
 
